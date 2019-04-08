@@ -1477,7 +1477,7 @@ Touch screen: pinch/extend to zoom, swipe or two-finger rotate."""
         ax.remove()
 
         # Return the drawn lines
-        return lines
+        return lines, plt
 
     def make_graph(self, ASres=None, padding=0):
         self.graphASres = ASres
