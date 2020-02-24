@@ -1417,7 +1417,7 @@ Touch screen: pinch/extend to zoom, swipe or two-finger rotate."""
             trace[s.ttl] = r.src
             rt[trace_id] = trace
 
-        city_or_country = []
+        geolocation = []
         # Get the addresses locations
         trt = {}
         for trace_id in rt:
@@ -1434,9 +1434,9 @@ Touch screen: pinch/extend to zoom, swipe or two-finger rotate."""
                     continue
                 loctrace.append((sresult.location.longitude, sresult.location.latitude))  # noqa: E501
                 if sresult.city.name:
-                    city_or_country.append(sresult.city.name)
-                else:
-                    city_or_country.append(sresult.registered_country.name)
+                    geolocation.append((sresult.city.name, ip))
+                elif sresult.registered_country.name:
+                    geolocation.append((sresult.registered_country.name, ip))
             if loctrace:
                 trt[trace_id] = loctrace
 
@@ -1483,7 +1483,7 @@ Touch screen: pinch/extend to zoom, swipe or two-finger rotate."""
         ax.remove()
 
         # Return the drawn lines
-        return lines, city_or_country
+        return lines, geolocation
 
     def make_graph(self, ASres=None, padding=0):
         self.graphASres = ASres
