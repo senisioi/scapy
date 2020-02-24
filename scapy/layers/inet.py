@@ -1361,7 +1361,7 @@ Touch screen: pinch/extend to zoom, swipe or two-finger rotate."""
 
         vpython.scene.bind('mousedown', mouse_click)
 
-    def world_trace(self):
+    def world_trace(self, save_path=None):
         """Display traceroute results on a world map."""
 
         # Check that the geoip2 module can be imported
@@ -1472,12 +1472,13 @@ Touch screen: pinch/extend to zoom, swipe or two-finger rotate."""
         # Call show() if matplotlib is not inlined
         if not MATPLOTLIB_INLINED:
             plt.show()
-
+        if save_path:
+            plt.savefig(save_path)
         # Clean
         ax.remove()
 
         # Return the drawn lines
-        return lines, plt
+        return lines
 
     def make_graph(self, ASres=None, padding=0):
         self.graphASres = ASres
@@ -1674,7 +1675,8 @@ def traceroute_map(ips, **kargs):
      - ips: a list of IPs on which traceroute will be called
      - optional: kwargs, passed to traceroute"""
     kargs.setdefault("verbose", 0)
-    return traceroute(ips)[0].world_trace()
+    save_path = kargs.get("save_path", None)
+    return traceroute(ips)[0].world_trace(save_path=save_path)
 
 #############################
 #  Simple TCP client stack  #
